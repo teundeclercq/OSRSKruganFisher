@@ -53,32 +53,32 @@ public class FishingGUI {
         jFrame.setVisible(true);
 
         startButton.addActionListener(l -> {
+
+
             fishType = (FishType) fishingStyleCMB.getSelectedItem();
             fishingLocation = (FishingLocation) fishingLocationCMB.getSelectedItem();
+
+
 
             main.setBankArea(fishingLocation.getBankArea());
             main.setFishArea(fishingLocation.getFishingArea());
             main.setFishMethod(fishType.getFishingMethod());
-            main.setFishingSpotContainsActions(fishType.getSpotContains());
-            main.setBankTile(fishingLocation.getBankArea().getRandomTile());
-            main.setFishingTile(fishingLocation.getFishingArea().getRandomTile());
+            main.setFishingStartMessage(fishType.getFishingMessageStart());
+            main.setFishingCatchMessages(fishType.getFishingMessageCatch());
+
+            main.setFishingSpotName(fishType.getFishingSpotName());
             main.setFishToCatch(fishType.getFish());
-
-            setFish(fishType.getFish());
-            setFishingEquipment(fishType.getFishingEquipment());
-            setFishingBait(fishType.getFishingBait());
-            setSpotContains(fishType.getSpotContains());
-            setFishingMethod(fishType.getFishingMethod());
-
-            setName(fishingLocation.getName());
-            setBankArea(fishingLocation.getBankArea());
-            setFishingArea(fishingLocation.getFishingArea());
-            setFishTypes(fishingLocation.getFishTypes());
-
-            fishingMethod = fishType.getFishingMethod();
+            main.setCounters(fishType.getCounters());
 
             main.setRunning(true);
             jFrame.dispose();
+            main.log("Closing gui");
+
+
+            fishingMethod = fishType.getFishingMethod();
+
+
+
         });
     }
 

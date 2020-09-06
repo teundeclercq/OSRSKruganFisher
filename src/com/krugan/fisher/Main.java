@@ -1,5 +1,6 @@
 package com.krugan.fisher;
 
+import com.krugan.fisher.model.FishType;
 import com.krugan.fisher.view.FishingGUI;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.container.impl.bank.Bank;
@@ -11,13 +12,16 @@ import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
 import org.dreambot.api.script.listener.AdvancedMessageListener;
+import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.interactive.GameObject;
 import org.dreambot.api.wrappers.interactive.NPC;
 import org.dreambot.api.wrappers.widgets.message.Message;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-@ScriptManifest(category = Category.FISHING, name = "OSKruganLummyFisher", author = "Krugan", version = 1.111)
+@ScriptManifest(category = Category.FISHING, name = "OSKruganLummyFisher", author = "Krugan", version = 1.121)
 public class Main extends AbstractScript implements AdvancedMessageListener {
 
     //Botting variables
@@ -26,24 +30,28 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
     private boolean isFishing = false;
 
     //GUI variables
-    private boolean isRunning;
+    private boolean isRunning = false;
 
     //Drawing variables
     String s;
-    int shrimpsCaught = 0;
-    int anchoviesCaught = 0;
+
+
 
     private Area bankArea;
     private Area fishArea;
-    private Tile bankTile;
-    private Tile fishingTile;
     private String[] fishToCatch;
     private String fishMethod;
-    private String[] fishingSpotContainsActions;
+    private String fishingSpotName;
+    private String fishingMessageStart;
+    private String[] fishingMessageCatch;
+    private Integer[] counters;
+    private final Timer timer = new Timer(1000);
+
 
     @Override
     public void onStart() {
         FishingGUI gui = new FishingGUI(this);
+
     }
 
     public void setBankArea(Area bankArea) {
@@ -57,18 +65,21 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
     public void setFishMethod(String fishMethod) {
         this.fishMethod = fishMethod;
     }
+    public void setCounters(Integer[] counters) {
+        this.counters = counters;
+    }
     public void setFishToCatch(String[] fishToCatch) {
         this.fishToCatch = fishToCatch;
     }
 
-    public void setFishingSpotContainsActions(String[] fishingSpotContainsActions) {
-        this.fishingSpotContainsActions = fishingSpotContainsActions;
+    public void setFishingSpotName(String fishingSpotName) {
+        this.fishingSpotName = fishingSpotName;
     }
-    public void setBankTile(Tile bankTile) {
-        this.bankTile = bankTile;
+    public void setFishingStartMessage(String fishingStartMessage) {
+        this.fishingMessageStart = fishingStartMessage;
     }
-    public void setFishingTile(Tile fishingTile) {
-        this.fishingTile = fishingTile;
+    public void setFishingCatchMessages(String[] fishingCatchMessages) {
+        this.fishingMessageCatch = fishingCatchMessages;
     }
 
     public void setRunning(boolean running) {
@@ -86,7 +97,7 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
                         }
                         if (!bankArea.contains(getLocalPlayer())) {
                             if (!getLocalPlayer().isMoving()) {
-                                getWalking().walk(bankTile);
+                                getWalking().walk(bankArea.getRandomTile());
                                 sleepUntil(() -> !getLocalPlayer().isMoving(), 4432);
                             }
                         }
@@ -125,7 +136,7 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
                         break;
                     case LF_FISHING_SPOT:
                         s = "Looking for Fishing spot";
-                        NPC fishingSpot = getNpcs().closest(fs -> fs.getName().contentEquals("Fishing spot") && fishArea.contains(fs) && Arrays.equals(fs.getActions(), fishingSpotContainsActions));
+                        NPC fishingSpot = getNpcs().closest(fs -> fs != null && fs.getName().contentEquals(fishingSpotName) && fishArea.contains(fs));
                         fishingSpot.interact(fishMethod);
                         sleepUntil(() -> isFishing, Calculations.random(3000, 10000));
                         break;
@@ -133,7 +144,8 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
                         s = "Going to Fishing area";
                         if (!fishArea.contains(getLocalPlayer())) {
                             if (!getLocalPlayer().isMoving()) {
-                                getWalking().walk(fishingTile);
+                                log("Going");
+                                getWalking().walk(fishArea.getRandomTile());
                                 sleepUntil(() -> !getLocalPlayer().isMoving(), 4432);
                             }
                         }
@@ -151,7 +163,6 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
         return 300;
 
     }
-
 
     public enum State {
         STOP, LOGOUT, BANKING, WALKING_TO_BANK, FISHING, LF_FISHING_SPOT, WALKING_TO_FISHING_SPOT
@@ -177,6 +188,20 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
     }
 
     @Override
+    public void onPaint(Graphics g) {
+        g.setColor(Color.RED);
+        g.setFont(new Font("Arial", Font.PLAIN, 12));
+        g.drawString("KruganFisher", 44, 205);
+        g.drawString("State: " + s, 44, 220);
+        int yAsState = 220;
+        for (String fish: fishToCatch) {
+            int indexOfFishCounter = Arrays.asList(fishToCatch).indexOf(fish);
+            g.drawString( fish + " Caught: " + counters[indexOfFishCounter], 44, yAsState += 15);
+        }
+        g.drawString("Timer: "  + timer.formatTime(), 44, yAsState += 15);
+    }
+
+    @Override
     public void onAutoMessage(Message message) {
 
     }
@@ -193,7 +218,16 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
 
     @Override
     public void onGameMessage(Message message) {
+        if (message.getMessage().contentEquals(fishingMessageStart)) {
+            isFishing = true;
+        }
 
+        for (int i = 0; i < fishingMessageCatch.length; i++) {
+            if (message.getMessage().contentEquals(fishingMessageCatch[i])) {
+                log(fishingMessageCatch[i]);
+                counters[i] ++;
+            }
+        }
     }
 
     @Override
