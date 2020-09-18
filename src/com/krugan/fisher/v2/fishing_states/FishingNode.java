@@ -21,7 +21,7 @@ public class FishingNode extends Node {
     public int execute() {
         state = "Fishing";
         if (!main.getLocalPlayer().isAnimating()) {
-            main.isFishing = true;
+            main.isFishing = false;
         } else {
             sleep(Calculations.random(2000, 4000));
         }

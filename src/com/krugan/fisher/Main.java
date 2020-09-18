@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-@ScriptManifest(category = Category.FISHING, name = "OSKruganFisher", author = "Krugan", version = 1.122)
+@ScriptManifest(category = Category.FISHING, name = "OSKruganFisher", author = "Krugan", version = 1.123)
 public class Main extends AbstractScript implements AdvancedMessageListener {
 
     //GUI variables
