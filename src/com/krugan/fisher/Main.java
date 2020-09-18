@@ -62,6 +62,7 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
                 for (Node node : nodes) {
                     if (node.isValid()) {
                         this.state = node.state;
+                        log(String.valueOf(isFishing));
                         return node.execute();
                     }
                 }
@@ -101,7 +102,7 @@ public class Main extends AbstractScript implements AdvancedMessageListener {
     @Override
     public void onGameMessage(Message message) {
         if (message.getMessage().equals(fishingStartMessage)) {
-            isFishing = true;
+            this.isFishing = true;
         }
 
         for (int i = 0; i < fishingCatchMessages.length; i++) {

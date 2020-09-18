@@ -14,7 +14,7 @@ public class LogoutNode extends Node {
 
     @Override
     public boolean isValid() {
-        return main.getSkills().getRealLevel(Skill.FISHING) >= 40;
+        return false;
     }
 
     @Override

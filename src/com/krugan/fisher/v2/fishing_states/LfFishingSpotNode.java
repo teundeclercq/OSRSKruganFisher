@@ -7,6 +7,7 @@ import com.krugan.fisher.v2.util.KFishingLocation;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.wrappers.interactive.NPC;
 
+import static org.dreambot.api.methods.MethodProvider.log;
 import static org.dreambot.api.methods.MethodProvider.sleepUntil;
 
 public class LfFishingSpotNode extends Node {
@@ -22,9 +23,10 @@ public class LfFishingSpotNode extends Node {
     @Override
     public int execute() {
         state = "Looking for fishing spot";
+        log("Looking for fishing spot");
         NPC fishingSpot = main.getNpcs().closest(fs -> fs != null && fs.getName().contentEquals(fishes.fishingSpot().getFishingSpotName()) && fishingLocation.fishingArea().contains(fs));
         fishingSpot.interact(fishes.fishingSpot().getFishingInteractionAction());
-        sleepUntil(() -> main.isFishing, Calculations.random(1000, 2500));
-        return Calculations.random(1000, 2000);
+        main.isFishing = true;
+        return Calculations.random(4500, 5000);
     }
 }

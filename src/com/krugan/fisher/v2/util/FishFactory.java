@@ -10,7 +10,7 @@ public class FishFactory {
     public static ArrayList<Node> CreateNodes(Main main, AbstractFish fish, KFishingLocation fishingLocation) {
         ArrayList<Node> nodes = new ArrayList<>();
         nodes.add(new BankingNode(main, fishingLocation, fish));
-        nodes.add(new FishingNode(main));
+        nodes.add(new FishingNode(main, fishingLocation, fish));
         nodes.add(new LfFishingSpotNode(main, fishingLocation, fish));
         nodes.add(new LogoutNode(main));
         nodes.add(new StopNode(main));
