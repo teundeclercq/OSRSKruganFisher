@@ -6,7 +6,8 @@ import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.script.AbstractScript;
 import org.dreambot.api.script.Category;
 import org.dreambot.api.script.ScriptManifest;
-import org.dreambot.api.script.listener.AdvancedMessageListener;
+import org.dreambot.api.script.listener.ChatListener;
+import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.widgets.message.Message;
 
@@ -17,7 +18,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @ScriptManifest(category = Category.FISHING, name = "OSKruganFisher", author = "Krugan", version = 1.123)
-public class Main extends AbstractScript implements AdvancedMessageListener {
+public class Main extends AbstractScript implements ChatListener, PaintListener {
 
     //GUI variables
     private boolean isRunning = false;

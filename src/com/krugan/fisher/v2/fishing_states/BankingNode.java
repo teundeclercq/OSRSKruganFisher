@@ -5,7 +5,9 @@ import com.krugan.fisher.v2.Node;
 import com.krugan.fisher.v2.util.AbstractFish;
 import com.krugan.fisher.v2.util.KFishingLocation;
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.container.impl.Inventory;
 import org.dreambot.api.methods.container.impl.bank.Bank;
+import org.dreambot.api.methods.interactive.GameObjects;
 import org.dreambot.api.wrappers.interactive.GameObject;
 
 import java.awt.*;
@@ -21,25 +23,24 @@ public class BankingNode extends Node {
 
     @Override
     public boolean isValid() {
-        return main.getInventory().isFull() && fishingLocation.bankArea().contains(main.getLocalPlayer());
+        return Inventory.isFull() && fishingLocation.bankArea().contains(main.getLocalPlayer());
     }
 
     @Override
     public int execute() {
         state = "Banking";
-        GameObject booth = main.getGameObjects().closest(bb -> bb != null && bb.getName().equals("Bank booth"));
+        GameObject booth = GameObjects.closest(bb -> bb != null && bb.getName().equals("Bank booth"));
         booth.interact("Bank");
         sleep(1000, 2000);
-        Bank bank = main.getBank();
-        sleepUntil(bank::isOpen, 3000);
-        if (bank.isOpen()) {
-            if (main.getInventory().contains(fishes.names())) {
+        sleepUntil(Bank::isOpen, 3000);
+        if (Bank.isOpen()) {
+            if (Inventory.contains(fishes.names())) {
                 for(String fish: fishes.names()) {
-                    bank.depositAll(fish);
+                    Bank.depositAll(fish);
                 }
-                sleepUntil(() -> !main.getInventory().contains(fishes.names()), Calculations.random(3000, 6000));
+                sleepUntil(() -> !Inventory.contains(fishes.names()), Calculations.random(3000, 6000));
             }
-            bank.close();
+            Bank.close();
         }
 
         return Calculations.random(2000, 3500);
