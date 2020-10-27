@@ -2,6 +2,7 @@ package com.krugan.fisher.view;
 
 import com.krugan.fisher.Main;
 import com.krugan.fisher.v2.fishing_locations.Catherby;
+import com.krugan.fisher.v2.fishing_locations.LumbridgeSwamp;
 import com.krugan.fisher.v2.fishing_locations.LumbridgeTown;
 import com.krugan.fisher.v2.util.AbstractFish;
 import com.krugan.fisher.v2.util.FishFactory;
@@ -24,7 +25,7 @@ public class FishingGUI {
         JFrame jFrame = new JFrame("FishingGUI");
         jFrame.setContentPane(mainPanel);
         jFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        KFishingLocation[] locationList = {new LumbridgeTown(), new Catherby()};
+        KFishingLocation[] locationList = {new LumbridgeSwamp(), new LumbridgeTown(), new Catherby()};
         fishingLocationCMB.setModel(new DefaultComboBoxModel<>(locationList));
         fishingLocationCMB.addActionListener(l -> {
               fishingLocation = (KFishingLocation) fishingLocationCMB.getSelectedItem();

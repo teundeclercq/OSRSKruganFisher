@@ -11,6 +11,7 @@ import org.dreambot.api.script.listener.PaintListener;
 import org.dreambot.api.utilities.Timer;
 import org.dreambot.api.wrappers.widgets.message.Message;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,7 +36,10 @@ public class Main extends AbstractScript implements ChatListener, PaintListener 
 
     @Override
     public void onStart() {
-        FishingGUI gui = new FishingGUI(this);
+
+        SwingUtilities.invokeLater(() -> {
+            FishingGUI gui = new FishingGUI(this);
+        });
     }
 
     public void setRunning(boolean running) {
@@ -63,7 +67,6 @@ public class Main extends AbstractScript implements ChatListener, PaintListener 
                 for (Node node : nodes) {
                     if (node.isValid()) {
                         this.state = node.state;
-                        log(String.valueOf(isFishing));
                         return node.execute();
                     }
                 }

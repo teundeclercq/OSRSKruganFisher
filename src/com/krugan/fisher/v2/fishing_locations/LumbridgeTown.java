@@ -29,10 +29,6 @@ public class LumbridgeTown extends KFishingLocation {
         return new Area(3207, 3222, 3210, 3215, 2);
     }
 
-    @Override
-    public AbstractFish setFishType(AbstractFish abstractFish) {
-        return Arrays.stream(this.abstractFish).filter(item -> item.equals(abstractFish)).findFirst().orElse(null);
-    }
 
     @Override
     public AbstractFish[] getFishTypes() {

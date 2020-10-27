@@ -4,6 +4,7 @@ import com.krugan.fisher.Main;
 import com.krugan.fisher.v2.Node;
 import org.dreambot.api.methods.Calculations;
 import org.dreambot.api.methods.skills.Skill;
+import org.dreambot.api.methods.tabs.Tabs;
 
 import static org.dreambot.api.methods.MethodProvider.log;
 
@@ -20,7 +21,7 @@ public class LogoutNode extends Node {
     @Override
     public int execute() {
         state = "Logging out...";
-        main.getTabs().logout();
+        Tabs.logout();
         return Calculations.random(3000, 4600);
     }
 }

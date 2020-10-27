@@ -29,11 +29,6 @@ public class Catherby extends KFishingLocation {
     }
 
     @Override
-    public AbstractFish setFishType(AbstractFish abstractFish) {
-        return Arrays.stream(this.abstractFish).filter(item -> item.equals(abstractFish)).findFirst().orElse(null);
-    }
-
-    @Override
     public AbstractFish[] getFishTypes() {
         return this.abstractFish;
     }

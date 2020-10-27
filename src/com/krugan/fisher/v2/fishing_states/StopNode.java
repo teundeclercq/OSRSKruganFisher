@@ -2,6 +2,7 @@ package com.krugan.fisher.v2.fishing_states;
 
 import com.krugan.fisher.Main;
 import com.krugan.fisher.v2.Node;
+import org.dreambot.api.Client;
 
 import static org.dreambot.api.methods.MethodProvider.log;
 
@@ -12,7 +13,7 @@ public class StopNode extends Node {
 
     @Override
     public boolean isValid() {
-        return !main.getClient().isLoggedIn();
+        return !Client.isLoggedIn();
     }
 
     @Override

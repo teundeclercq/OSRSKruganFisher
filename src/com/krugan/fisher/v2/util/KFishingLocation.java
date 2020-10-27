@@ -8,7 +8,6 @@ import java.util.List;
 public abstract class KFishingLocation {
     public abstract Area fishingArea();
     public abstract Area bankArea();
-    public abstract AbstractFish setFishType(AbstractFish abstractFish);
     public abstract AbstractFish[] getFishTypes();
     public abstract String toString();
 }

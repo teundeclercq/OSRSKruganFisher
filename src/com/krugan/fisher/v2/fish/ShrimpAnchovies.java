@@ -16,7 +16,7 @@ public class ShrimpAnchovies extends AbstractFish {
 
     @Override
     public String[] names() {
-        return new String[] {"Raw shrimp", "Raw anchovies"};
+        return new String[] {"Raw shrimps", "Raw anchovies"};
     }
 
     @Override
@@ -26,7 +26,7 @@ public class ShrimpAnchovies extends AbstractFish {
 
     @Override
     public FishingSpot fishingSpot() {
-        return new FishingSpot("Fishing spot", "You start catching fish...", new String[]{"You catch a shrimp.", "You catch a anchovies."}, "Net");
+        return new FishingSpot("Fishing spot", "You start catching fish...", new String[]{"You catch some shrimps.", "You catch some anchovies."}, "Net");
     }
 
     @Override

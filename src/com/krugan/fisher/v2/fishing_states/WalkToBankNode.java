@@ -4,6 +4,8 @@ import com.krugan.fisher.Main;
 import com.krugan.fisher.v2.Node;
 import com.krugan.fisher.v2.util.KFishingLocation;
 import org.dreambot.api.methods.Calculations;
+import org.dreambot.api.methods.container.impl.Inventory;
+import org.dreambot.api.methods.walking.impl.Walking;
 
 import static org.dreambot.api.methods.MethodProvider.log;
 import static org.dreambot.api.methods.MethodProvider.sleepUntil;
@@ -15,7 +17,7 @@ public class WalkToBankNode extends Node {
 
     @Override
     public boolean isValid() {
-        return main.getInventory().isFull() && !fishingLocation.bankArea().contains(main.getLocalPlayer());
+        return Inventory.isFull() && !fishingLocation.bankArea().contains(main.getLocalPlayer());
     }
 
     @Override
@@ -26,10 +28,10 @@ public class WalkToBankNode extends Node {
         }
         if (!fishingLocation.bankArea().contains(main.getLocalPlayer())) {
             if (!main.getLocalPlayer().isMoving()) {
-                main.getWalking().walk(fishingLocation.bankArea().getRandomTile());
-                sleepUntil(() -> !main.getLocalPlayer().isMoving(), Calculations.random(1000, 3500));
+                Walking.walk(fishingLocation.bankArea().getRandomTile());
+                sleepUntil(() -> !main.getLocalPlayer().isMoving(), Calculations.random(400, 4000));
             }
         }
-        return Calculations.random(2000, 4000);
+        return Calculations.random(400, 4000);
     }
 }
